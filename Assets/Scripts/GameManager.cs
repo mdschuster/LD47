@@ -27,6 +27,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -58,15 +59,30 @@ public class GameManager : MonoBehaviour
     private float combineTimer = 5f;
     public float timeBetweenCombine;
 
+
+    public TextMeshProUGUI FusionText;
+    public TextMeshProUGUI FusionValue;
+
+    public float fusionStart;
+    private float currentFusion;
+
+    private bool textBlinking = false;
+
+
+
     // Start is called before the first frame update
     void Start()
     {
         currentlyCombining = new List<CollectibleSmall>();
+        currentFusion = fusionStart;
     }
 
     // Update is called once per frame
     void Update()
     {
+
+        decreaseFusion();
+
         if (currentlyCombining.Count != 0)
         {
             if (!currentlyCombining[0].IsCombining() && !currentlyCombining[1].IsCombining())
@@ -125,5 +141,49 @@ public class GameManager : MonoBehaviour
         {
             combineTimer -= Time.deltaTime;
         }
+    }
+
+
+    public void updateFusion(float value)
+    {
+        currentFusion += value;
+        //FusionValue.text = System.String.Format("{0:0.0}", currentFusion) + "%";
+        if (currentFusion <= 25)
+        {
+            //change text color to red, blink
+            FusionValue.color = Color.red;
+            if (!textBlinking)
+            {
+                StartCoroutine("textFusionBlink");
+                textBlinking = true;
+            }
+        }
+        else
+        {
+            FusionValue.color = Color.green;
+            if (textBlinking)
+            {
+                StopCoroutine("textFusionBlink");
+                textBlinking = false;
+            }
+            FusionValue.text = System.String.Format("{0:0.0}", currentFusion) + "%";
+        }
+    }
+
+    public void decreaseFusion()
+    {
+        updateFusion(-Time.deltaTime);
+    }
+
+    private IEnumerator textFusionBlink()
+    {
+        while (true)
+        {
+            FusionValue.text = "";
+            yield return new WaitForSeconds(.2f);
+            FusionValue.text = System.String.Format("{0:0.0}", currentFusion) + "%";
+            yield return new WaitForSeconds(.2f);
+        }
+
     }
 }
