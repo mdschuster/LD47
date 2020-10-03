@@ -33,7 +33,7 @@ public class Spawner : MonoBehaviour
 
     private List<GameObject> collectables;
 
-    public GameObject Collectable;
+    private IFactory factory;
 
     public float minSpeed;
     public float maxSpeed;
@@ -57,6 +57,7 @@ public class Spawner : MonoBehaviour
     void Start()
     {
         collectables = new List<GameObject>();
+        factory = GetComponent<CollectibleFactory>();
     }
 
     // Update is called once per frame
@@ -75,7 +76,11 @@ public class Spawner : MonoBehaviour
             float speed = Random.Range(minSpeed, maxSpeed);
             float vAngleD = initialAngle;
 
-            GameObject go = Instantiate(Collectable, new Vector3(0f, 0f, 0f), Quaternion.identity);
+
+            GameObject product = ((TorusMover)factory.produce()).gameObject;
+
+
+            GameObject go = Instantiate(product, new Vector3(0f, 0f, 0f), Quaternion.identity);
             TorusMover tm = go.GetComponent<TorusMover>();
             tm.uAngleD = uAngleD;
             tm.speed = speed;

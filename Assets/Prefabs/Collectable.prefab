@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1927167341502200415}
   - component: {fileID: 1927167341502200400}
-  - component: {fileID: 1927167341502200401}
+  - component: {fileID: -3543643123209187178}
   m_Layer: 0
   m_Name: Collectable
   m_TagString: Collectible
@@ -49,7 +49,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &1927167341502200401
+--- !u!114 &-3543643123209187178
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -58,9 +58,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1927167341502200402}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d07ca9e1993564347a1c4a38af89f0c7, type: 3}
+  m_Script: {fileID: 11500000, guid: 69a278cefbc6aa645a72c284b0c9911e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  worth: 5
 --- !u!1 &1927167342143925932
 GameObject:
   m_ObjectHideFlags: 0

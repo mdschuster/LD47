@@ -28,8 +28,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
-public class TorusMover : MonoBehaviour
+public abstract class TorusMover : MonoBehaviour, IProduct
 {
 
     /*
@@ -51,21 +50,23 @@ public class TorusMover : MonoBehaviour
 
     public float killAngle { get; set; }
 
-    private Rigidbody rb;
+    public int worth;
 
-    private Vector3 moveVector;
+    protected Rigidbody rb;
+
+    protected Vector3 moveVector;
 
     public System.Action<GameObject> kill;
 
     // Start is called before the first frame update
-    void Start()
+    protected void Start()
     {
         rb = GetComponent<Rigidbody>();
         moveVector = Vector3.zero;
     }
 
     // Update is called once per frame
-    void Update()
+    protected void Update()
     {
         move();
         if (vAngleD >= killAngle)
@@ -74,7 +75,7 @@ public class TorusMover : MonoBehaviour
         }
     }
 
-    private void move()
+    protected void move()
     {
 
         //convert from degrees to radians for cos and sin
