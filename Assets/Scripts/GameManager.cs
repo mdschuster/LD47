@@ -63,6 +63,8 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI FusionText;
     public TextMeshProUGUI FusionValue;
 
+    public MeshRenderer TorusMesh;
+
     public float fusionStart;
     private float currentFusion;
 
@@ -80,6 +82,11 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            currentFusion += 25;
+        }
 
         decreaseFusion();
 
@@ -168,6 +175,7 @@ public class GameManager : MonoBehaviour
             }
             FusionValue.text = System.String.Format("{0:0.0}", currentFusion) + "%";
         }
+        adjustTorusIntensity();
     }
 
     public void decreaseFusion()
@@ -190,5 +198,34 @@ public class GameManager : MonoBehaviour
     public void killCollectible(GameObject go)
     {
         go.GetComponent<TorusMover>()?.despawn();
+    }
+
+    public void adjustTorusIntensity()
+    {
+
+        float H, S, V;
+        Color.RGBToHSV(TorusMesh.GetComponent<Renderer>().material.GetColor("Color_2C8B9613"), out H, out S, out V);
+
+        int maxIntensity = 100;
+        S = currentFusion / maxIntensity;
+        V = currentFusion / maxIntensity;
+        if (S >= 1)
+        {
+            S = 1f;
+        }
+        if (V >= 1f)
+        {
+            V = 1f;
+        }
+        if (S <= 0.01)
+        {
+            S = 0.01f;
+        }
+        if (V <= 0.01)
+        {
+            V = 0.01f;
+        }
+
+        TorusMesh.GetComponent<Renderer>().material.SetColor("Color_2C8B9613", Color.HSVToRGB(H, S * 10, V * 10, true));
     }
 }

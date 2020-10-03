@@ -348,7 +348,7 @@ RectTransform:
   - {fileID: 94597987}
   - {fileID: 1607928728}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -365,7 +365,7 @@ PrefabInstance:
     - target: {fileID: -8679921383154817045, guid: a68b114dbd4bebf489f6456f7e038c52,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: a68b114dbd4bebf489f6456f7e038c52,
         type: 3}
@@ -695,7 +695,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1481610953
 GameObject:
@@ -764,6 +764,12 @@ MonoBehaviour:
     type: 3}
   largeCollectible: {fileID: 7075936425594952012, guid: ab87fd5cdbb062542ab104f44fa0e6d2,
     type: 3}
+--- !u!23 &1605925837 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: a68b114dbd4bebf489f6456f7e038c52,
+    type: 3}
+  m_PrefabInstance: {fileID: 354681591}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1607928727
 GameObject:
   m_ObjectHideFlags: 0
@@ -1046,6 +1052,7 @@ MonoBehaviour:
   timeBetweenCombine: 10
   FusionText: {fileID: 94597988}
   FusionValue: {fileID: 1607928729}
+  TorusMesh: {fileID: 1605925837}
   fusionStart: 50
 --- !u!4 &1989985010
 Transform:
@@ -1054,12 +1061,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1989985008}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2138677391
 GameObject:
