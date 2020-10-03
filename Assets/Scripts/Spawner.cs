@@ -5,6 +5,8 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
 
+    private List<GameObject> collectables;
+
     public GameObject Collectable;
 
     public float minSpeed;
@@ -14,6 +16,7 @@ public class Spawner : MonoBehaviour
 
     public float torusRadius;
     public float innerRadius;
+    public float killAngle;
 
     private int track;
 
@@ -27,7 +30,7 @@ public class Spawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
+        collectables = new List<GameObject>();
     }
 
     // Update is called once per frame
@@ -53,6 +56,10 @@ public class Spawner : MonoBehaviour
             tm.vAngleD = vAngleD;
             tm.torusRadius = torusRadius;
             tm.innerRadius = innerRadius;
+            tm.killAngle = killAngle;
+
+            go.GetComponent<TorusMover>().kill += removeCollectable;
+            collectables.Add(go);
 
             spawnTimer = timeBetweenSpawns;
 
@@ -61,5 +68,10 @@ public class Spawner : MonoBehaviour
         {
             spawnTimer -= Time.deltaTime;
         }
+    }
+
+    private void removeCollectable(GameObject go)
+    {
+        collectables.Remove(go);
     }
 }

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1927167341502200401}
   m_Layer: 0
   m_Name: Collectable
-  m_TagString: Untagged
+  m_TagString: Collectible
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -61,11 +61,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d07ca9e1993564347a1c4a38af89f0c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
-  torusRadius: 50
-  innerRadius: 3
-  vAngleD: 180
-  uAngleD: 180
 --- !u!1 &1927167342143925932
 GameObject:
   m_ObjectHideFlags: 0

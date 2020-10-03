@@ -29,12 +29,11 @@ public class Player : MonoBehaviour
         //Counter Clockwise
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            print("Left/Counter Clockwise");
             move(-1);
         }
+        //Clockwise
         else if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            print("Right/Clockwise");
             move(1);
         }
     }
@@ -53,12 +52,20 @@ public class Player : MonoBehaviour
         moveVector.x = (torusRadius + innerRadius * Mathf.Cos(uAngleR)) * Mathf.Cos(vAngleR);
         moveVector.z = (torusRadius + innerRadius * Mathf.Cos(uAngleR)) * Mathf.Sin(vAngleR);
         moveVector.y = innerRadius * Mathf.Sin(uAngleR);
-        print(moveVector);
         rb.MovePosition(moveVector);
 
-        //update angles
 
-        //vAngleD += speed * Time.deltaTime;
+    }
 
+    /// <summary>
+    /// OnTriggerEnter is called when the Collider other enters the trigger.
+    /// </summary>
+    /// <param name="other">The other Collider involved in this collision.</param>
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.transform != null && other.transform.parent.tag == "Collectible")
+        {
+            //TODO Mess with score/collectible count here
+        }
     }
 }

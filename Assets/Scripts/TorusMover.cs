@@ -23,9 +23,13 @@ public class TorusMover : MonoBehaviour
     public float vAngleD { get; set; }
     public float uAngleD { get; set; }
 
+    public float killAngle { get; set; }
+
     private Rigidbody rb;
 
     private Vector3 moveVector;
+
+    public System.Action<GameObject> kill;
 
     // Start is called before the first frame update
     void Start()
@@ -38,6 +42,10 @@ public class TorusMover : MonoBehaviour
     void Update()
     {
         move();
+        if (vAngleD >= killAngle)
+        {
+            despawn();
+        }
     }
 
     private void move()
@@ -58,5 +66,11 @@ public class TorusMover : MonoBehaviour
         //uAngleD += speed * Time.deltaTime;
         vAngleD += speed * Time.deltaTime;
 
+    }
+
+    public void despawn()
+    {
+        kill?.Invoke(this.gameObject);
+        GameObject.Destroy(this.gameObject);
     }
 }
