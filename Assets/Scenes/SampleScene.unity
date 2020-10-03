@@ -732,7 +732,7 @@ MonoBehaviour:
   initialAngle: 220
   torusRadius: 50
   innerRadius: 3
-  killAngle: 275
+  killAngle: 271
   timeBetweenSpawns: 0.4
 --- !u!4 &1481610955
 Transform:

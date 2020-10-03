@@ -186,4 +186,9 @@ public class GameManager : MonoBehaviour
         }
 
     }
+
+    public void killCollectible(GameObject go)
+    {
+        go.GetComponent<TorusMover>()?.despawn();
+    }
 }

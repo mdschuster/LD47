@@ -139,7 +139,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offsetAmt: 0.5
-  worth: 10
+  worth: 5
 --- !u!54 &5584106913660888593
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -59,11 +59,14 @@ public abstract class TorusMover : MonoBehaviour, IProduct
 
     protected Vector3 moveVector;
 
+    private GameManager gm;
+
     public System.Action<GameObject> kill;
 
     // Start is called before the first frame update
     protected void Start()
     {
+        gm = GameManager.instance();
         rb = GetComponent<Rigidbody>();
         moveVector = Vector3.zero;
         updateOffset();
@@ -101,6 +104,10 @@ public abstract class TorusMover : MonoBehaviour, IProduct
 
     public void despawn()
     {
+        if (vAngleD >= killAngle)
+        {
+            gm.updateFusion(-worth);
+        }
         kill?.Invoke(this.gameObject);
         GameObject.Destroy(this.gameObject);
     }

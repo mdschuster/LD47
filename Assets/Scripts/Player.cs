@@ -40,10 +40,13 @@ public class Player : MonoBehaviour
 
     private Rigidbody rb;
 
+    private GameManager gm;
+
     private Vector3 moveVector;
     // Start is called before the first frame update
     void Start()
     {
+        gm = GameManager.instance();
         rb = GetComponent<Rigidbody>();
         moveVector = Vector3.zero;
         move(0);
@@ -91,7 +94,8 @@ public class Player : MonoBehaviour
     {
         if (other.transform != null && other.transform.parent.tag == "Collectible")
         {
-            //TODO Mess with score/collectible count here
+            gm.updateFusion(other.transform.parent.GetComponent<TorusMover>().worth);
+            gm.killCollectible(other.transform.parent.gameObject);
         }
     }
 }

@@ -62,7 +62,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   offsetAmt: 0.25
-  worth: 5
+  worth: 1
 --- !u!1 &1927167342143925932
 GameObject:
   m_ObjectHideFlags: 0
