@@ -50,6 +50,9 @@ public abstract class TorusMover : MonoBehaviour, IProduct
 
     public float killAngle { get; set; }
 
+    public float offsetAmt;
+
+
     public int worth;
 
     protected Rigidbody rb;
@@ -63,6 +66,7 @@ public abstract class TorusMover : MonoBehaviour, IProduct
     {
         rb = GetComponent<Rigidbody>();
         moveVector = Vector3.zero;
+        updateOffset();
     }
 
     // Update is called once per frame
@@ -99,5 +103,20 @@ public abstract class TorusMover : MonoBehaviour, IProduct
     {
         kill?.Invoke(this.gameObject);
         GameObject.Destroy(this.gameObject);
+    }
+
+    public float getTrackAngle()
+    {
+        return uAngleD;
+    }
+
+    public float getCurrentAngle()
+    {
+        return vAngleD;
+    }
+
+    public void updateOffset()
+    {
+        innerRadius -= offsetAmt;
     }
 }

@@ -31,7 +31,7 @@ using UnityEngine;
 public class Spawner : MonoBehaviour
 {
 
-    private List<GameObject> collectables;
+    private List<GameObject> collectibles;
 
     private IFactory factory;
 
@@ -56,7 +56,7 @@ public class Spawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        collectables = new List<GameObject>();
+        collectibles = new List<GameObject>();
         factory = GetComponent<CollectibleFactory>();
     }
 
@@ -89,8 +89,8 @@ public class Spawner : MonoBehaviour
             tm.innerRadius = innerRadius;
             tm.killAngle = killAngle;
 
-            go.GetComponent<TorusMover>().kill += removeCollectable;
-            collectables.Add(go);
+            go.GetComponent<TorusMover>().kill += removeCollectible;
+            collectibles.Add(go);
 
             spawnTimer = timeBetweenSpawns;
 
@@ -101,8 +101,35 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    private void removeCollectable(GameObject go)
+    private void removeCollectible(GameObject go)
     {
-        collectables.Remove(go);
+        collectibles.Remove(go);
+    }
+
+    public List<GameObject> getCollectibles()
+    {
+        return collectibles;
+    }
+
+    public void manualSpawn(float uAngleD, float vAngleD, int type)
+    {
+        float speed = Random.Range(minSpeed, maxSpeed);
+
+
+        GameObject product = ((TorusMover)factory.produceManual(type)).gameObject;
+
+
+        GameObject go = Instantiate(product, new Vector3(0f, 0f, 0f), Quaternion.identity);
+        TorusMover tm = go.GetComponent<TorusMover>();
+        tm.uAngleD = uAngleD;
+        tm.speed = speed;
+        tm.vAngleD = vAngleD;
+        tm.torusRadius = torusRadius;
+        tm.innerRadius = innerRadius;
+        tm.killAngle = killAngle;
+        tm.updateOffset();
+
+        go.GetComponent<TorusMover>().kill += removeCollectible;
+        collectibles.Add(go);
     }
 }

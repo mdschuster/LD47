@@ -30,4 +30,5 @@ using UnityEngine;
 public interface IFactory
 {
     IProduct produce();
+    IProduct produceManual(int type);
 }

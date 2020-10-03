@@ -18,8 +18,20 @@ public class CollectibleFactory : MonoBehaviour, IFactory
         }
         else
         {
-            return (TorusMover)smallCollectible.GetComponent<CollectibleSmall>();
+            return (TorusMover)largeCollectible.GetComponent<CollectibleBig>();
         }
 
+    }
+
+    public IProduct produceManual(int type)
+    {
+        if (type == 1)
+        {
+            return (TorusMover)smallCollectible.GetComponent<CollectibleSmall>();
+        }
+        else
+        {
+            return (TorusMover)largeCollectible.GetComponent<CollectibleBig>();
+        }
     }
 }
