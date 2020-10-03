@@ -55,6 +55,9 @@ public class GameManager : MonoBehaviour
 
     private List<CollectibleSmall> currentlyCombining;
 
+    private float combineTimer = 5f;
+    public float timeBetweenCombine;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -79,7 +82,7 @@ public class GameManager : MonoBehaviour
 
 
         //test initiate combine
-        if (Input.GetKeyDown(KeyCode.Space) && currentlyCombining.Count == 0)
+        if (combineTimer <= 0 && currentlyCombining.Count == 0)
         {
             //get current list of spawns
             List<GameObject> spawns = spawner.getCollectibles();
@@ -93,7 +96,6 @@ public class GameManager : MonoBehaviour
 
                 if (spawns[spawn1].GetComponent<CollectibleSmall>() != null && spawns[spawn2].GetComponent<CollectibleSmall>() != null)
                 {
-                    print("Found 2 small collectibles");
                     CollectibleSmall cs1 = spawns[spawn1].GetComponent<CollectibleSmall>();
                     CollectibleSmall cs2 = spawns[spawn2].GetComponent<CollectibleSmall>();
                     //check if they are relatively close, track and angle
@@ -102,23 +104,26 @@ public class GameManager : MonoBehaviour
                     float trackDiff = Mathf.Abs(track1 - track2);
                     if (trackDiff > 1 && trackDiff % 2 == 0)
                     {
-                        print("found 2 within 1 track");
                         if (Mathf.Abs(cs1.getCurrentAngle() - cs2.getCurrentAngle()) <= 20f)
                         {
-                            print("Found 2 within angle");
                             //do combine
                             float newAngle = (cs1.getCurrentAngle() + cs2.getCurrentAngle()) / 2;
-                            float newTrackAngle = (cs1.getTrackAngle() + cs2.getTrackAngle()) / 2;
+                            float newTrackAngle = ((cs1.getTrackAngle() + cs2.getTrackAngle()) / 2) % 180f;
                             cs1.initiateCombine(newTrackAngle, newAngle);
                             cs2.initiateCombine(newTrackAngle, newAngle);
                             currentlyCombining.Add(cs1);
                             currentlyCombining.Add(cs2);
+                            combineTimer = timeBetweenCombine;
                             break;
                         }
                     }
                 }
                 tries++;
             }
+        }
+        else
+        {
+            combineTimer -= Time.deltaTime;
         }
     }
 }

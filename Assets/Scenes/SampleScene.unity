@@ -427,13 +427,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 852c598f2bb0a364d80256fab6240576, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minSpeed: 8
+  minSpeed: 10
   maxSpeed: 10
   initialAngle: 220
   torusRadius: 50
   innerRadius: 3
   killAngle: 275
-  timeBetweenSpawns: 1
+  timeBetweenSpawns: 0.4
 --- !u!4 &1481610955
 Transform:
   m_ObjectHideFlags: 0
@@ -609,6 +609,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawner: {fileID: 1481610954}
+  timeBetweenCombine: 10
 --- !u!4 &1989985010
 Transform:
   m_ObjectHideFlags: 0
