@@ -95,6 +95,7 @@ public class Player : MonoBehaviour
         if (other.transform != null && other.transform.parent.tag == "Collectible")
         {
             gm.updateFusion(other.transform.parent.GetComponent<TorusMover>().worth);
+            gm.spawnCollectEffect(other.transform.parent);
             gm.killCollectible(other.transform.parent.gameObject);
         }
     }

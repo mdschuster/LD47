@@ -58,15 +58,27 @@ public class GameManager : MonoBehaviour
 
     private float combineTimer = 5f;
     public float timeBetweenCombine;
+    public float decreaseSpeed;
+    public float powerIncrease;
 
 
     public TextMeshProUGUI FusionText;
     public TextMeshProUGUI FusionValue;
 
+    public TextMeshProUGUI PowerText;
+    public TextMeshProUGUI PowerValue;
+
+
+
     public MeshRenderer TorusMesh;
+
+    public GameObject SmallCollectEffect;
+    public GameObject BigCollectEffect;
 
     public float fusionStart;
     private float currentFusion;
+    private float currentPower;
+    public float powerStart;
 
     private bool textBlinking = false;
 
@@ -77,6 +89,7 @@ public class GameManager : MonoBehaviour
     {
         currentlyCombining = new List<CollectibleSmall>();
         currentFusion = fusionStart;
+        currentPower = powerStart;
     }
 
     // Update is called once per frame
@@ -89,6 +102,7 @@ public class GameManager : MonoBehaviour
         }
 
         decreaseFusion();
+        updatePower();
 
         if (currentlyCombining.Count != 0)
         {
@@ -180,7 +194,15 @@ public class GameManager : MonoBehaviour
 
     public void decreaseFusion()
     {
-        updateFusion(-Time.deltaTime);
+        updateFusion(-Time.deltaTime * decreaseSpeed);
+    }
+
+    public void updatePower()
+    {
+        //increase power scaled by fusion progress
+        currentPower += Time.deltaTime * powerIncrease * currentFusion / 100f;
+        PowerValue.text = System.String.Format("{0:0.0}", currentPower) + "MW";
+        PowerValue.color = Color.green;
     }
 
     private IEnumerator textFusionBlink()
@@ -227,5 +249,24 @@ public class GameManager : MonoBehaviour
         }
 
         TorusMesh.GetComponent<Renderer>().material.SetColor("Color_2C8B9613", Color.HSVToRGB(H, S * 10, V * 10, true));
+    }
+
+
+    public void spawnCollectEffect(Transform t)
+    {
+        if (t.gameObject.GetComponent<CollectibleSmall>() != null)
+        {
+            GameObject go = Instantiate(SmallCollectEffect, t.position, Quaternion.identity);
+            go.GetComponent<ParticleSystem>().Play();
+        }
+        else if (t.gameObject.GetComponent<CollectibleBig>() != null)
+        {
+            GameObject go = Instantiate(BigCollectEffect, t.position, Quaternion.identity);
+            go.GetComponent<ParticleSystem>().Play();
+        }
+        else
+        {
+            print("Not sure why this was called!");
+        }
     }
 }

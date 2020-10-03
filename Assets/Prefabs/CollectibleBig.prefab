@@ -298,7 +298,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cdf30db3feaf0b48b172923d151b4ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  offsetAmt: 0.55
+  offsetAmt: 0.5
   worth: 5
 --- !u!54 &5584106913660888593
 Rigidbody:
