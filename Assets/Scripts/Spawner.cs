@@ -135,4 +135,11 @@ public class Spawner : MonoBehaviour
         go.GetComponent<TorusMover>().kill += removeCollectible;
         collectibles.Add(go);
     }
+
+    public void increaseDiff()
+    {
+        timeBetweenSpawns /= 2;
+        minSpeed += 2;
+        maxSpeed += 2;
+    }
 }

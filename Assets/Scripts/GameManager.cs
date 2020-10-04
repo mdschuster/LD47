@@ -88,12 +88,14 @@ public class GameManager : MonoBehaviour
     private bool textBlinking = false;
 
     public bool dead;
+    private float diff;
 
 
 
     // Start is called before the first frame update
     void Start()
     {
+        diff = 100;
         dead = false;
         currentlyCombining = new List<CollectibleSmall>();
         currentFusion = fusionStart;
@@ -103,6 +105,12 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (currentFusion / diff >= 1)
+        {
+            spawner.increaseDiff();
+            diff += 100;
+        }
 
 
         if (currentFusion <= 0f && !dead)
