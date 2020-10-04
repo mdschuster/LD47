@@ -28,6 +28,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -74,6 +75,10 @@ public class GameManager : MonoBehaviour
 
     public GameObject SmallCollectEffect;
     public GameObject BigCollectEffect;
+    public Fade blackCanvas;
+
+    public GameObject gameOverText;
+    public GameObject finalScoreText;
 
     public float fusionStart;
     private float currentFusion;
@@ -82,11 +87,14 @@ public class GameManager : MonoBehaviour
 
     private bool textBlinking = false;
 
+    public bool dead;
+
 
 
     // Start is called before the first frame update
     void Start()
     {
+        dead = false;
         currentlyCombining = new List<CollectibleSmall>();
         currentFusion = fusionStart;
         currentPower = powerStart;
@@ -96,71 +104,80 @@ public class GameManager : MonoBehaviour
     void Update()
     {
 
+
+        if (currentFusion <= 0f && !dead)
+        {
+            gameOver();
+        }
+
         if (Input.GetKeyDown(KeyCode.Space))
         {
             currentFusion += 25;
         }
 
-        decreaseFusion();
-        updatePower();
-
-        if (currentlyCombining.Count != 0)
+        if (!dead)
         {
-            if (!currentlyCombining[0].IsCombining() && !currentlyCombining[1].IsCombining())
+            decreaseFusion();
+            updatePower();
+
+            if (currentlyCombining.Count != 0)
             {
-                spawner.manualSpawn(currentlyCombining[0].uAngleD, currentlyCombining[0].vAngleD, 2);
-                currentlyCombining[0].despawn();
-                currentlyCombining[1].despawn();
-                currentlyCombining.Clear();
-            }
-        }
-
-
-
-
-        //test initiate combine
-        if (combineTimer <= 0 && currentlyCombining.Count == 0)
-        {
-            //get current list of spawns
-            List<GameObject> spawns = spawner.getCollectibles();
-            int tries = 0;
-            //only try to do this a few times
-            while (tries < 5)
-            {
-                //pick two random spawns
-                int spawn1 = Random.Range(0, spawns.Count);
-                int spawn2 = Random.Range(0, spawns.Count);
-
-                if (spawns[spawn1].GetComponent<CollectibleSmall>() != null && spawns[spawn2].GetComponent<CollectibleSmall>() != null)
+                if (!currentlyCombining[0].IsCombining() && !currentlyCombining[1].IsCombining())
                 {
-                    CollectibleSmall cs1 = spawns[spawn1].GetComponent<CollectibleSmall>();
-                    CollectibleSmall cs2 = spawns[spawn2].GetComponent<CollectibleSmall>();
-                    //check if they are relatively close, track and angle
-                    int track1 = (int)cs1.getTrackAngle() / 36;
-                    int track2 = (int)cs2.getTrackAngle() / 36;
-                    float trackDiff = Mathf.Abs(track1 - track2);
-                    if (trackDiff > 1 && trackDiff % 2 == 0)
+                    spawner.manualSpawn(currentlyCombining[0].uAngleD, currentlyCombining[0].vAngleD, 2);
+                    currentlyCombining[0].despawn();
+                    currentlyCombining[1].despawn();
+                    currentlyCombining.Clear();
+                }
+            }
+
+
+
+
+            //test initiate combine
+            if (combineTimer <= 0 && currentlyCombining.Count == 0)
+            {
+                //get current list of spawns
+                List<GameObject> spawns = spawner.getCollectibles();
+                int tries = 0;
+                //only try to do this a few times
+                while (tries < 5)
+                {
+                    //pick two random spawns
+                    int spawn1 = Random.Range(0, spawns.Count);
+                    int spawn2 = Random.Range(0, spawns.Count);
+
+                    if (spawns[spawn1].GetComponent<CollectibleSmall>() != null && spawns[spawn2].GetComponent<CollectibleSmall>() != null)
                     {
-                        if (Mathf.Abs(cs1.getCurrentAngle() - cs2.getCurrentAngle()) <= 20f)
+                        CollectibleSmall cs1 = spawns[spawn1].GetComponent<CollectibleSmall>();
+                        CollectibleSmall cs2 = spawns[spawn2].GetComponent<CollectibleSmall>();
+                        //check if they are relatively close, track and angle
+                        int track1 = (int)cs1.getTrackAngle() / 36;
+                        int track2 = (int)cs2.getTrackAngle() / 36;
+                        float trackDiff = Mathf.Abs(track1 - track2);
+                        if (trackDiff > 1 && trackDiff % 2 == 0)
                         {
-                            //do combine
-                            float newAngle = (cs1.getCurrentAngle() + cs2.getCurrentAngle()) / 2;
-                            float newTrackAngle = ((cs1.getTrackAngle() + cs2.getTrackAngle()) / 2) % 180f;
-                            cs1.initiateCombine(newTrackAngle, newAngle);
-                            cs2.initiateCombine(newTrackAngle, newAngle);
-                            currentlyCombining.Add(cs1);
-                            currentlyCombining.Add(cs2);
-                            combineTimer = timeBetweenCombine;
-                            break;
+                            if (Mathf.Abs(cs1.getCurrentAngle() - cs2.getCurrentAngle()) <= 20f)
+                            {
+                                //do combine
+                                float newAngle = (cs1.getCurrentAngle() + cs2.getCurrentAngle()) / 2;
+                                float newTrackAngle = ((cs1.getTrackAngle() + cs2.getTrackAngle()) / 2) % 180f;
+                                cs1.initiateCombine(newTrackAngle, newAngle);
+                                cs2.initiateCombine(newTrackAngle, newAngle);
+                                currentlyCombining.Add(cs1);
+                                currentlyCombining.Add(cs2);
+                                combineTimer = timeBetweenCombine;
+                                break;
+                            }
                         }
                     }
+                    tries++;
                 }
-                tries++;
             }
-        }
-        else
-        {
-            combineTimer -= Time.deltaTime;
+            else
+            {
+                combineTimer -= Time.deltaTime;
+            }
         }
     }
 
@@ -190,6 +207,11 @@ public class GameManager : MonoBehaviour
             FusionValue.text = System.String.Format("{0:0.0}", currentFusion) + "%";
         }
         adjustTorusIntensity();
+        if (currentFusion <= 0f || dead)
+        {
+            currentFusion = 0f;
+        }
+
     }
 
     public void decreaseFusion()
@@ -268,5 +290,22 @@ public class GameManager : MonoBehaviour
         {
             print("Not sure why this was called!");
         }
+    }
+
+
+    public void gameOver()
+    {
+        dead = true;
+        finalScoreText.GetComponent<Text>().text = System.String.Format("{0:0.0}", currentPower) + "MW";
+        StartCoroutine(blackCanvas.fade(0.99f, 1f));
+        StartCoroutine(wait(1f));
+        //Time.timeScale = 0f;
+
+    }
+
+    public IEnumerator wait(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        gameOverText.SetActive(true);
     }
 }

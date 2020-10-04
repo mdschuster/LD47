@@ -63,7 +63,10 @@ public class Spawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        spawn();
+        if (!GameManager.instance().dead)
+        {
+            spawn();
+        }
     }
 
     public void spawn()

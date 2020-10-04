@@ -5,15 +5,6 @@ using UnityEngine.SceneManagement;
 
 public class TheSceneManager : MonoBehaviour
 {
-
-    /// <summary>
-    /// Awake is called when the script instance is being loaded.
-    /// </summary>
-    void Awake()
-    {
-        DontDestroyOnLoad(this.gameObject);
-    }
-
     public void loadMainGame()
     {
         SceneManager.LoadScene("GameScene");

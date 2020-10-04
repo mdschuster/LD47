@@ -55,15 +55,18 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Counter Clockwise
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        if (!gm.dead)
         {
-            move(-1);
-        }
-        //Clockwise
-        else if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            move(1);
+            //Counter Clockwise
+            if (Input.GetKeyDown(KeyCode.LeftArrow))
+            {
+                move(-1);
+            }
+            //Clockwise
+            else if (Input.GetKeyDown(KeyCode.RightArrow))
+            {
+                move(1);
+            }
         }
     }
 
