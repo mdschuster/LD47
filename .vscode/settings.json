@@ -52,5 +52,12 @@
         "ProjectSettings/":true,
         "temp/":true,
         "Temp/":true
-    }
+    },
+    "cSpell.words": [
+        "destroy",
+        "dont",
+        "dont destroy on load",
+        "load",
+        "on"
+    ]
 }
