@@ -29,6 +29,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(AudioSource))]
+
 public class Player : MonoBehaviour
 {
 
@@ -42,10 +44,15 @@ public class Player : MonoBehaviour
 
     private GameManager gm;
 
+    private AudioSource audioSource;
+
+    public AudioClip[] pickupSounds;
+
     private Vector3 moveVector;
     // Start is called before the first frame update
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         gm = GameManager.instance();
         rb = GetComponent<Rigidbody>();
         moveVector = Vector3.zero;
@@ -100,6 +107,8 @@ public class Player : MonoBehaviour
             gm.updateFusion(other.transform.parent.GetComponent<TorusMover>().worth);
             gm.spawnCollectEffect(other.transform.parent);
             gm.killCollectible(other.transform.parent.gameObject);
+            audioSource.clip = pickupSounds[Random.Range(0, pickupSounds.Length)];
+            audioSource.Play();
         }
     }
 }
